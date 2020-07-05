@@ -60,6 +60,12 @@ ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.
 COPY conf/metrics.properties /etc/metrics/conf
 COPY conf/prometheus.yaml /etc/metrics/conf
 
+# Set necessary environment variables. 
+ENV SPARK_HOME="/opt/spark"
+ENV PATH="/opt/spark/bin:${PATH}"
+RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> /opt/spark/conf/spark-env.sh
+
+COPY entrypoint.sh /opt
 
 WORKDIR /opt/spark/work-dir
 
