@@ -18,7 +18,7 @@ FROM openjdk:8-slim
 
 ENV SPARK_HOME /opt/spark
 ARG SPARK_VERSION=2.4.5
-ARG HADOOP_VERSION=2.7.3
+ARG HADOOP_VERSION=2.7
 
 # Variables that define which software versions to install.
 ENV JAVA_HOME=/usr/local/openjdk-8
@@ -29,7 +29,7 @@ RUN apt update && apt install -y curl
 # Download Spark Hadoop Image
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
       && tar -xvzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
-      && mv /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark \
+      && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark \
       && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz 
 
 
