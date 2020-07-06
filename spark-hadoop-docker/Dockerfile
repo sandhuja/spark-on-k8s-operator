@@ -22,11 +22,10 @@ ENV SPARK_HOME /opt/spark
 ARG spark_uid=185
 
 RUN set -ex && \
-    apk upgrade --no-cache && \
+    sed -i 's/http:\/\/deb.\(.*\)/https:\/\/deb.\1/g' /etc/apt/sources.list && \
     apt-get update && \
-    apt install -y bash tini libc6 libpam-modules krb5-user libnss3 procps && \
     ln -s /lib /lib64 && \
-    apk add --no-cache bash tini libc6-compat linux-pam krb5 krb5-libs && \
+    apt install -y bash tini libc6 libpam-modules krb5-user libnss3 procps && \
     rm /bin/sh && \
     ln -sv /bin/bash /bin/sh && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
