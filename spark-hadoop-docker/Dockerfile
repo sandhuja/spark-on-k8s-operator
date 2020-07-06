@@ -75,9 +75,10 @@ RUN groupadd -g 1080 spark && \
     useradd -r -m -u 1080 -g spark spark && \
     chown -R -L spark /opt/spark && \
     chgrp -R -L spark /opt/spark
-USER spark
-
+    
 RUN chown spark /opt/entrypoint.sh
+
+USER spark
 
 WORKDIR /opt/spark/work-dir
 
