@@ -36,6 +36,9 @@ RUN set -ex && \
 ARG SPARK_VERSION=2.4.5
 ARG HADOOP_VERSION=2.7
 
+ARG HADOOP_AWS_VERSION=2.7.3
+ARG AWS_JAVA_SDK_VERSION=1.7.4
+
 # Variables that define which software versions to install.
 ENV JAVA_HOME=/usr/local/openjdk-8
 
@@ -43,6 +46,32 @@ ENV JAVA_HOME=/usr/local/openjdk-8
 RUN apt update \
     && apt install -y curl \
     && apt install -y wget
+    
+####################################################################################
+# Download and extract the Hadoop binary package.
+RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/hadoop-$HADOOP_AWS_VERSION.tar.gz \
+	| tar xvz -C /opt/  \
+	&& ln -s /opt/hadoop-$HADOOP_AWS_VERSION /opt/hadoop \
+	&& rm -r /opt/hadoop/share/doc 
+
+# Add S3a jars to the classpath using this hack.
+RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
+    ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
+
+# Add 'hadoop' user so that this cluster is not run as root.
+RUN groupadd -g 1010 hadoop && \
+    useradd -r -m -u 1010 -g hadoop hadoop && \
+    mkdir -p /opt/hadoop/logs && \
+    chown -R -L hadoop /opt/hadoop && \
+    chgrp -R -L hadoop /opt/hadoop
+
+# Set necessary environment variables. 
+ENV HADOOP_HOME="/opt/hadoop"
+ENV PATH="/opt/hadoop/bin:${PATH}"
+
+
+
+####################################################################################
 
 # Download Spark Hadoop Image
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
@@ -52,8 +81,7 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 
 
 # Setup dependencies for S3 storage access.
-ARG HADOOP_AWS_VERSION=2.7.3
-ARG AWS_JAVA_SDK_VERSION=1.7.4
+
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
