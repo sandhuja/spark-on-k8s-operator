@@ -100,8 +100,8 @@ case "$SPARK_K8S_CMD" in
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --conf "spark.driver.extraClassPath=$SPARK_CLASSPATH"
-      --conf "spark.executor.extraClassPath=$SPARK_CLASSPATH"
+      --conf "spark.driver.extraClassPath=\"$SPARK_CLASSPATH\""
+      --conf "spark.executor.extraClassPath=\"$SPARK_CLASSPATH\""
       --deploy-mode client
       "$@"
     )
@@ -110,8 +110,8 @@ case "$SPARK_K8S_CMD" in
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --conf "spark.driver.extraClassPath=$SPARK_CLASSPATH"
-      --conf "spark.executor.extraClassPath=$SPARK_CLASSPATH"
+      --conf "spark.driver.extraClassPath=\"$SPARK_CLASSPATH\""
+      --conf "spark.executor.extraClassPath=\"$SPARK_CLASSPATH\""
       --deploy-mode client
       "$@" $PYSPARK_PRIMARY $PYSPARK_ARGS
     )
@@ -120,8 +120,8 @@ case "$SPARK_K8S_CMD" in
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --conf "spark.driver.extraClassPath=$SPARK_CLASSPATH"
-      --conf "spark.executor.extraClassPath=$SPARK_CLASSPATH"
+      --conf "spark.driver.extraClassPath=\"$SPARK_CLASSPATH\""
+      --conf "spark.executor.extraClassPath=\"$SPARK_CLASSPATH\""
       --deploy-mode client
       "$@" $R_PRIMARY $R_ARGS
     )
