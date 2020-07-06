@@ -49,7 +49,7 @@ case "$SPARK_K8S_CMD" in
       ;;
 esac
 
-SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
+#SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*"
 
 env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n | sed 's/[^=]*=\(.*\)/\1/g' > /tmp/java_opts.txt
 readarray -t SPARK_EXECUTOR_JAVA_OPTS < /tmp/java_opts.txt
@@ -58,10 +58,10 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
-#cd $SPARK_HOME/jars
+cd $SPARK_HOME/jars
 
-#VAR=$(ls | xargs realpath  |  tr '\n' ':')
-#export SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
+VAR=$(ls | xargs realpath  |  tr '\n' ':')
+export SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
 #echo "Spark classpath=$SPARK_CLASSPATH"
 
 #export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
