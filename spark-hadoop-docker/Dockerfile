@@ -68,6 +68,7 @@ ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> /opt/spark/conf/spark-env.sh
 
 COPY entrypoint.sh /opt
+RUN mkdir -p /opt/spark/work-dir 
 
 # Add 'spark' user so that this cluster is not run as root.
 RUN groupadd -g 1080 spark && \
@@ -76,7 +77,8 @@ RUN groupadd -g 1080 spark && \
     chgrp -R -L spark /opt/spark
 USER spark
 
-RUN mkdir -p /opt/spark/work-dir 
+RUN chown spark /opt/entrypoint.sh
+
 WORKDIR /opt/spark/work-dir
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
