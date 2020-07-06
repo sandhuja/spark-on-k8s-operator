@@ -24,7 +24,9 @@ ARG HADOOP_VERSION=2.7
 ENV JAVA_HOME=/usr/local/openjdk-8
 
 # Install dependencies
-RUN apt update && apt install -y curl 
+RUN apt update \
+    && apt install -y curl \
+    && apt install -y wget
 
 # Download Spark Hadoop Image
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
