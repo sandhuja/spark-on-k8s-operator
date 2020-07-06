@@ -85,10 +85,9 @@ RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/s
 
 RUN cd $SPARK_HOME
 ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
-RUN echo "export SPARK_CLASSPATH=$SPARK_CLASSPATH:$VAR" >> $SPARK_HOME/conf/spark-env.sh
-
-RUN echo "Show spark-env.sh"
-RUN cat /opt/spark/conf/spark-env.sh
+ENV SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
+RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
+RUN echo "spark.executor.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
