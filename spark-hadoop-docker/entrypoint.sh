@@ -132,8 +132,11 @@ esac
 cd $SPARK_HOME/jars
 
 VAR=$(ls | xargs realpath  |  tr '\n' ':')
-SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*:$VAR"
+export SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
 echo "Spark classpath=$SPARK_CLASSPATH"
+
+export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
+echo "Spark dist classpath=$SPARK_CLASSPATH"
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
