@@ -63,12 +63,20 @@ COPY conf/metrics.properties /etc/metrics/conf
 COPY conf/prometheus.yaml /etc/metrics/conf
 
 # Set necessary environment variables. 
-ENV SPARK_HOME="/opt/spark"
+#ENV SPARK_HOME="/opt/spark"
 ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> /opt/spark/conf/spark-env.sh
 
 COPY entrypoint.sh /opt
 
+# Add 'spark' user so that this cluster is not run as root.
+RUN groupadd -g 1080 spark && \
+    useradd -r -m -u 1080 -g spark spark && \
+    chown -R -L spark /opt/spark && \
+    chgrp -R -L spark /opt/spark
+USER spark
+
+RUN mkdir -p /opt/spark/work-dir 
 WORKDIR /opt/spark/work-dir
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
