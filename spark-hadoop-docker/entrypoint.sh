@@ -57,6 +57,16 @@ if [ -n "$SPARK_EXTRA_CLASSPATH" ]; then
   SPARK_CLASSPATH="$SPARK_CLASSPATH:$SPARK_EXTRA_CLASSPATH"
 fi
 
+cd $SPARK_HOME/jars
+
+VAR=$(ls | xargs realpath  |  tr '\n' ':')
+export SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
+echo "Spark classpath=$SPARK_CLASSPATH"
+
+export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
+echo "Spark dist classpath=$SPARK_CLASSPATH"
+
+
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
 fi
@@ -129,14 +139,7 @@ case "$SPARK_K8S_CMD" in
     exit 1
 esac
 
-cd $SPARK_HOME/jars
 
-VAR=$(ls | xargs realpath  |  tr '\n' ':')
-export SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
-echo "Spark classpath=$SPARK_CLASSPATH"
-
-export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
-echo "Spark dist classpath=$SPARK_CLASSPATH"
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
