@@ -1,18 +1,19 @@
+  
 #
-# Copyright 2018 Google LLC
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
 #
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
+#    http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
 ARG java_image_tag=8-jre-slim
 FROM openjdk:${java_image_tag}
@@ -83,11 +84,12 @@ ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> /opt/spark/conf/spark-env.sh
 
 COPY entrypoint.sh /opt
+COPY decom.sh /opt
 RUN mkdir -p /opt/spark/work-dir 
 
 WORKDIR /opt/spark/work-dir
 RUN chmod g+w /opt/spark/work-dir
-#RUN chmod a+x /opt/decom.sh
+RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
