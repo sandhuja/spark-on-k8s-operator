@@ -14,19 +14,24 @@
 # limitations under the License.
 #
 
-FROM openjdk:8-slim
+ARG java_image_tag=8-jre-slim
+FROM openjdk:${java_image_tag}
+#FROM openjdk:8-slim
 
 ENV SPARK_HOME /opt/spark
 ARG spark_uid=185
 
 RUN set -ex && \
     apk upgrade --no-cache && \
+    apt-get update && \
+    apt install -y bash tini libc6 libpam-modules krb5-user libnss3 procps && \
     ln -s /lib /lib64 && \
     apk add --no-cache bash tini libc6-compat linux-pam krb5 krb5-libs && \
     rm /bin/sh && \
     ln -sv /bin/bash /bin/sh && \
     echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
-    chgrp root /etc/passwd && chmod ug+rw /etc/passwd
+    chgrp root /etc/passwd && chmod ug+rw /etc/passwd && \
+    rm -rf /var/cache/apt/*
 
 ARG SPARK_VERSION=2.4.5
 ARG HADOOP_VERSION=2.7
