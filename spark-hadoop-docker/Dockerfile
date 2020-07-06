@@ -17,6 +17,17 @@
 FROM openjdk:8-slim
 
 ENV SPARK_HOME /opt/spark
+ARG spark_uid=185
+
+RUN set -ex && \
+    apk upgrade --no-cache && \
+    ln -s /lib /lib64 && \
+    apk add --no-cache bash tini libc6-compat linux-pam krb5 krb5-libs && \
+    rm /bin/sh && \
+    ln -sv /bin/bash /bin/sh && \
+    echo "auth required pam_wheel.so use_uid" >> /etc/pam.d/su && \
+    chgrp root /etc/passwd && chmod ug+rw /etc/passwd
+
 ARG SPARK_VERSION=2.4.5
 ARG HADOOP_VERSION=2.7
 
@@ -31,7 +42,7 @@ RUN apt update \
 # Download Spark Hadoop Image
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
       && tar -xvzf spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz \
-      && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark \
+      && mv spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} $SPARK_HOME \
       && rm spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz 
 
 
@@ -41,8 +52,8 @@ ARG AWS_JAVA_SDK_VERSION=1.7.4
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
-ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar $SPARK_HOME/jars
+#ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar $SPARK_HOME/jars
+#ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar $SPARK_HOME/jars
 
 # Add Minio jars
 ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars
@@ -70,16 +81,10 @@ RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> /opt/spark/conf/sp
 COPY entrypoint.sh /opt
 RUN mkdir -p /opt/spark/work-dir 
 
-# Add 'spark' user so that this cluster is not run as root.
-RUN groupadd -g 1080 spark && \
-    useradd -r -m -u 1080 -g spark spark && \
-    chown -R -L spark /opt/spark && \
-    chgrp -R -L spark /opt/spark
-    
-RUN chown spark /opt/entrypoint.sh
-
-USER spark
-
 WORKDIR /opt/spark/work-dir
+RUN chmod g+w /opt/spark/work-dir
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
+
+# Specify the User that the actual main process will run as
+USER ${spark_uid}
