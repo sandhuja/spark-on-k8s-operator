@@ -83,11 +83,11 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
 
-RUN cd $SPARK_HOME
-ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
-ENV SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
-RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
-RUN echo "spark.executor.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
+#RUN cd $SPARK_HOME
+#ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
+#ENV SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
+#RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
+#RUN echo "spark.executor.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
