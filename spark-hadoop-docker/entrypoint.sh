@@ -131,7 +131,7 @@ esac
 
 cd $SPARK_HOME/jars
 
-VAR=$(ls -p | grep -v / | tr '\n' ',')
+VAR=$(ls | xargs realpath  |  tr '\n' ':')
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*:$VAR"
 echo "Spark classpath=$SPARK_CLASSPATH"
 
