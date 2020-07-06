@@ -129,7 +129,7 @@ case "$SPARK_K8S_CMD" in
     exit 1
 esac
 
-cd $SPARK_HOME
+cd $SPARK_HOME/jars
 
 VAR=$(ls -p | grep -v / | tr '\n' ',')
 SPARK_CLASSPATH="$SPARK_CLASSPATH:${SPARK_HOME}/jars/*:$VAR"
