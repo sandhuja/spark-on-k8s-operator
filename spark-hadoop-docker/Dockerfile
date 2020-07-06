@@ -87,6 +87,8 @@ RUN mkdir -p /opt/spark/work-dir
 
 WORKDIR /opt/spark/work-dir
 RUN chmod g+w /opt/spark/work-dir
+#RUN chmod a+x /opt/decom.sh
+RUN chmod a+x /opt/entrypoint.sh
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
