@@ -108,9 +108,7 @@ RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ &&
     cp $SPARK_HOME/jars/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
 
-#COPY classpath.sh /opt
-#RUN chmod a+x /opt/classpath.sh
-#RUN ./opt/classpath.sh
+
 
 
 # Setup for the Prometheus JMX exporter.
@@ -125,6 +123,10 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
+
+COPY classpath.sh /opt
+RUN chmod a+x /opt/classpath.sh
+RUN ./opt/classpath.sh
 
 #RUN cd $SPARK_HOME/jars
 #ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
