@@ -106,7 +106,6 @@ RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ &&
     cp $SPARK_HOME/jars/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
