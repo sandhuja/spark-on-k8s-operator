@@ -147,8 +147,8 @@ echo "CMD=${CMD[@]}"
 echo "run hadoop classpath command"
 echo $(hadoop classpath)
 
-echo "SPARK_CLASSPATH="$SPARK_CLASSPATH
-echo "HADOOP_CLADDPATH="$HADOOP_CLASSPATH
+echo "SPARK_CLASSPATH=$SPARK_CLASSPATH"
+echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
