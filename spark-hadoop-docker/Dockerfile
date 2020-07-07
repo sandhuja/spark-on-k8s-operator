@@ -55,8 +55,8 @@ RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/
 	&& rm -r /opt/hadoop/share/doc 
 
 # Add S3a jars to the classpath using this hack.
-RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
-    ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
+RUN cp /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
+    cp /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
 
 # Add 'hadoop' user so that this cluster is not run as root.
 RUN groupadd -g 1010 hadoop && \
@@ -99,18 +99,18 @@ ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotation
 ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars
 
 # Add minio jars to the hadoop classpath using this hack.
-RUN ln -s $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/minio-7.0.2.jar && \
-    ln -s $SPARK_HOME/jars/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/spotbugs-annotations-4.0.0.jar && \
-    ln -s $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/jsr305-3.0.2.jar && \
-    ln -s $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/guava-25.1-jre.jar && \
-    ln -s $SPARK_HOME/jars/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/okhttp-3.13.1.jar && \
-    ln -s $SPARK_HOME/jars/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/okio-1.17.2.jar && \
-    ln -s $SPARK_HOME/jars/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/jcip-annotations-1.0.jar && \
-    ln -s $SPARK_HOME/jars/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/simple-xml-2.7.1.jar 
+RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
 
-COPY classpath.sh /opt
-RUN chmod a+x /opt/classpath.sh
-RUN ./opt/classpath.sh
+#COPY classpath.sh /opt
+#RUN chmod a+x /opt/classpath.sh
+#RUN ./opt/classpath.sh
 
 
 # Setup for the Prometheus JMX exporter.
