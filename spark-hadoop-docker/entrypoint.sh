@@ -144,6 +144,11 @@ case "$SPARK_K8S_CMD" in
 esac
 
 echo "CMD=${CMD[@]}"
+echo "run hadoop classpath command"
+echo $(hadoop classpath)
+
+echo "SPARK_CLASSPATH="$SPARK_CLASSPATH
+echo "HADOOP_CLADDPATH="$HADOOP_CLASSPATH
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
