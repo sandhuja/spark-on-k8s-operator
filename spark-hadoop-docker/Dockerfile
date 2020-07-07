@@ -90,6 +90,9 @@ ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VER
 
 # Add Minio jars
 ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar $SPARK_HOME/jars
 ADD https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $SPARK_HOME/jars
 ADD https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar $SPARK_HOME/jars
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/25.1-jre/guava-25.1-jre.jar $SPARK_HOME/jars
@@ -100,6 +103,10 @@ ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-x
 
 # Add minio jars to the hadoop classpath using this hack.
 RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
