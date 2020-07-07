@@ -100,7 +100,7 @@ ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-x
 
 # Add minio jars to the hadoop classpath using this hack.
 RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
     cp $SPARK_HOME/jars/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
