@@ -109,6 +109,7 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 # Set necessary environment variables. 
 #ENV SPARK_HOME="/opt/spark"
 ENV PATH="/opt/spark/bin:${PATH}"
+RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
 
 #RUN cd $SPARK_HOME
