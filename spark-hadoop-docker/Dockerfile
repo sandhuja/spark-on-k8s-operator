@@ -98,6 +98,21 @@ ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar
 ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars
 ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars
 
+# Add minio jars to the hadoop classpath using this hack.
+RUN ln -s $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/minio-7.0.2.jar && \
+    ln -s $SPARK_HOME/jars/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar && \
+    ln -s $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/jsr305-3.0.2.jar && \
+    ln -s $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/guava-25.1-jre.jar && \
+    ln -s $SPARK_HOME/jars/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/okhttp-3.13.1.jar && \
+    ln -s $SPARK_HOME/jars/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/okio-1.17.2.jar && \
+    ln -s $SPARK_HOME/jars/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/jcip-annotations-1.0.jar && \
+    ln -s $SPARK_HOME/jars/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/simple-xml-2.7.1.jar 
+
+RUN cd $SPARK_HOME/jars
+ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
+ENV HADOOP_CLASSPATH="$HADOOP_CLASSPATH:$VAR"
+ENV SPARK_DIST_CLASSPATH="$HADOOP_CLASSPATH"
+ENV SPARK_CLASSPATH="$HADOOP_CLASSPATH"
 
 # Setup for the Prometheus JMX exporter.
 RUN mkdir -p /etc/metrics/conf
@@ -112,7 +127,7 @@ ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
 
-#RUN cd $SPARK_HOME
+#RUN cd $SPARK_HOME/jars
 #ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
 #ENV SPARK_CLASSPATH="$SPARK_CLASSPATH:$VAR"
 #RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
