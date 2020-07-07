@@ -67,7 +67,18 @@ fi
 #export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
 #echo "Spark dist classpath=$SPARK_CLASSPATH"
 
+for f in $SPARK_HOME/jars/*.jar; do
+  if [ "$SPARK_CLASSPATH" ]; then
+    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+  else
+    export SPARK_CLASSPATH=$f
+  fi
+done
 
+
+export SPARK_DIST_CLASSPATH=$(hadoop classpath)
+export HADOOP_CLASSPATH=$SPARK_DIST_CLASSPATH
+export SPARK_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
