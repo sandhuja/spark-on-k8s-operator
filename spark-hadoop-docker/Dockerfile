@@ -85,34 +85,34 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
-ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar $SPARK_HOME/jars
+#ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar $SPARK_HOME/jars/minio
+#ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-${AWS_JAVA_SDK_VERSION}.jar $SPARK_HOME/jars/minio
 
 # Add Minio jars
-ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/google/guava/guava/25.1-jre/guava-25.1-jre.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.13.1/okhttp-3.13.1.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-annotations/2.10.3/jackson-annotations-2.10.3.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-core/2.10.3/jackson-core-2.10.3.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/fasterxml/jackson/core/jackson-databind/2.10.3/jackson-databind-2.10.3.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/google/guava/guava/25.1-jre/guava-25.1-jre.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.13.1/okhttp-3.13.1.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars/minio
+ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/minio
 
 # Add minio jars to the hadoop classpath using this hack.
-RUN cp $SPARK_HOME/jars/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
+RUN cp $SPARK_HOME/jars/minio/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+    cp $SPARK_HOME/jars/minio/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
 
 
 
