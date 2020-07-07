@@ -161,8 +161,6 @@ echo $(hadoop classpath)
 echo "SPARK_CLASSPATH=$SPARK_CLASSPATH"
 echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 
-echo "perform curl to minio"
-curl http://192.168.254.34:9000
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
