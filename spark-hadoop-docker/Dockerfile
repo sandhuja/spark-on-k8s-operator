@@ -55,8 +55,8 @@ RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/
 	&& rm -r /opt/hadoop/share/doc 
 
 # Add S3a jars to the classpath using this hack.
-RUN cp /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
-    cp /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
+#RUN cp /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
+#    cp /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
 
 # Add 'hadoop' user so that this cluster is not run as root.
 RUN groupadd -g 1010 hadoop && \
