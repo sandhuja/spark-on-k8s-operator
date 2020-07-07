@@ -78,7 +78,8 @@ done
 
 export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 export HADOOP_CLASSPATH=$SPARK_DIST_CLASSPATH
-export SPARK_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
+#export SPARK_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
 
 if [ -n "$PYSPARK_FILES" ]; then
     PYTHONPATH="$PYTHONPATH:$PYSPARK_FILES"
@@ -127,8 +128,6 @@ case "$SPARK_K8S_CMD" in
     CMD=(
       "$SPARK_HOME/bin/spark-submit"
       --conf "spark.driver.bindAddress=$SPARK_DRIVER_BIND_ADDRESS"
-      --conf "spark.driver.extraClassPath=\"$SPARK_CLASSPATH\""
-      --conf "spark.executor.extraClassPath=\"$SPARK_CLASSPATH\""
       --deploy-mode client
       "$@" $R_PRIMARY $R_ARGS
     )
@@ -139,7 +138,7 @@ case "$SPARK_K8S_CMD" in
       "${SPARK_EXECUTOR_JAVA_OPTS[@]}"
       -Xms$SPARK_EXECUTOR_MEMORY
       -Xmx$SPARK_EXECUTOR_MEMORY
-      -cp "$SPARK_CLASSPATH"
+      -cp "$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH"
       org.apache.spark.executor.CoarseGrainedExecutorBackend
       --driver-url $SPARK_DRIVER_URL
       --executor-id $SPARK_EXECUTOR_ID
