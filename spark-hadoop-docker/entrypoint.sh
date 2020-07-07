@@ -78,7 +78,7 @@ done
 
 export SPARK_DIST_CLASSPATH=$(hadoop classpath)
 export HADOOP_CLASSPATH=$SPARK_DIST_CLASSPATH
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:share/hadoop/tools/lib/*
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$HADOOP_HOME/share/hadoop/tools/lib/*
 #export SPARK_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
 
@@ -155,8 +155,9 @@ case "$SPARK_K8S_CMD" in
 esac
 
 echo "CMD=${CMD[@]}"
-echo "run hadoop classpath command"
-echo $(hadoop classpath)
+
+#echo "run hadoop classpath command"
+#echo $(hadoop classpath)
 
 echo "SPARK_CLASSPATH=$SPARK_CLASSPATH"
 echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
