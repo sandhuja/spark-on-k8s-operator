@@ -112,7 +112,7 @@ ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotation
 ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/minio
 
 # Add minio jars to the hadoop classpath using this hack.
-RUN ln -s $SPARK_HOME/jars/minio/* /opt/hadoop/share/hadoop/common/lib/
+#RUN ln -s $SPARK_HOME/jars/minio/* /opt/hadoop/share/hadoop/common/lib/
 
 #RUN cp $SPARK_HOME/jars/minio/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
 #    cp $SPARK_HOME/jars/minio/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
