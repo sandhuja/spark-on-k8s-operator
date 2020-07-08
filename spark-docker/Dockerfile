@@ -25,8 +25,11 @@ FROM ${SPARK_IMAGE}
 #ADD https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-latest.jar $SPARK_HOME/jars
 
 # Setup dependencies for S3 storage access.
-ARG HADOOP_AWS_VERSION=2.7.3
-ARG AWS_JAVA_SDK_VERSION=1.7.4
+#ARG HADOOP_AWS_VERSION=2.7.3
+#ARG AWS_JAVA_SDK_VERSION=1.7.4
+
+ARG HADOOP_AWS_VERSION=3.2.1
+ARG AWS_JAVA_SDK_VERSION=1.11.375
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
