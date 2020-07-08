@@ -18,18 +18,18 @@ ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v2.4.5
 FROM ${SPARK_IMAGE}
 
 ## Setup dependencies for Google Cloud Storage access.
-#RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
-#ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
+RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
+ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 ## Add the connector jar needed to access Google Cloud Storage using the Hadoop FileSystem API.
 #ADD https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar $SPARK_HOME/jars
 #ADD https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-latest.jar $SPARK_HOME/jars
 
 # Setup dependencies for S3 storage access.
-ARG HADOOP_AWS_VERSION=2.7.3
-ARG AWS_JAVA_SDK_VERSION=1.7.4
+#ARG HADOOP_AWS_VERSION=2.7.3
+#ARG AWS_JAVA_SDK_VERSION=1.7.4
 
-#ARG HADOOP_AWS_VERSION=3.2.0
-#ARG AWS_JAVA_SDK_VERSION=1.11.375
+ARG HADOOP_AWS_VERSION=3.2.1
+ARG AWS_JAVA_SDK_VERSION=1.11.375
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
