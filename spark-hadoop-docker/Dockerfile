@@ -87,11 +87,10 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
       && rm spark-${SPARK_VERSION}-bin-without-hadoop.tgz 
       
 # Retrieve Spark cloud jar      
-ADD https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/spark/spark-hadoop-cloud_2.11/2.4.0-cdh6.3.3/spark-hadoop-cloud_2.11-2.4.0-cdh6.3.3.jar $SPARK_HOME/jars
-      
+#ADD https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/spark/spark-hadoop-cloud_2.11/2.4.0-cdh6.3.3/spark-hadoop-cloud_2.11-2.4.0-cdh6.3.3.jar $SPARK_HOME/jars
+#ADD http://repo1.purestorage.int/spark/2.4.6/hadoop-cloud/spark-hadoop-cloud_2.11-2.4.4.3.1.6.3-1.jar $SPARK_HOME/jars      
+
 # Setup dependencies for S3 storage access.
-
-
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
 # In 1.7.4, it's aws-java-sdk rather than aws-java-sdk-bundle
 #ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar $SPARK_HOME/jars/minio
