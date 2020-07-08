@@ -86,6 +86,9 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
       && mv spark-${SPARK_VERSION}-bin-without-hadoop $SPARK_HOME \
       && rm spark-${SPARK_VERSION}-bin-without-hadoop.tgz 
       
+# Retrieve Spark cloud jar      
+ADD https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/spark/spark-hadoop-cloud_2.11/2.4.0-cdh6.3.3/spark-hadoop-cloud_2.11-2.4.0-cdh6.3.3.jar $SPARK_HOME/jars
+      
 # Setup dependencies for S3 storage access.
 
 
