@@ -67,13 +67,7 @@ fi
 #export SPARK_DIST_CLASSPATH="$SPARK_DIST_CLASSPATH:$VAR"
 #echo "Spark dist classpath=$SPARK_CLASSPATH"
 
-for f in $SPARK_HOME/jars/*.jar; do
-  if [ "$SPARK_CLASSPATH" ]; then
-    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
-  else
-    export SPARK_CLASSPATH=$f
-  fi
-done
+
 
 for f in $SPARK_HOME/jars/minio/*.jar; do
   if [ "$SPARK_CLASSPATH" ]; then
@@ -83,10 +77,17 @@ for f in $SPARK_HOME/jars/minio/*.jar; do
   fi
 done
 
+for f in $SPARK_HOME/jars/*.jar; do
+  if [ "$SPARK_CLASSPATH" ]; then
+    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+  else
+    export SPARK_CLASSPATH=$f
+  fi
+done
 
 export SPARK_DIST_CLASSPATH=$(hadoop classpath)
-export HADOOP_CLASSPATH=$SPARK_DIST_CLASSPATH
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$SPARK_CLASSPATH
+export HADOOP_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
+#export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$SPARK_CLASSPATH
 #$HADOOP_HOME/share/hadoop/tools/lib/*
 export SPARK_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native
