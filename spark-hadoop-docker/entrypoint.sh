@@ -69,13 +69,13 @@ fi
 
 
 
-for f in $SPARK_HOME/jars/minio/*.jar; do
-  if [ "$SPARK_CLASSPATH" ]; then
-    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
-  else
-    export SPARK_CLASSPATH=$f
-  fi
-done
+#for f in $SPARK_HOME/jars/minio/*.jar; do
+#  if [ "$SPARK_CLASSPATH" ]; then
+#    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+#  else
+#    export SPARK_CLASSPATH=$f
+#  fi
+#done
 
 for f in $SPARK_HOME/jars/*.jar; do
   if [ "$SPARK_CLASSPATH" ]; then
