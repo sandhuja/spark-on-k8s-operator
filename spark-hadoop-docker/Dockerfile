@@ -55,8 +55,8 @@ RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/
 	&& rm -r /opt/hadoop/share/doc 
 
 # Add S3a jars to the classpath using this hack.
-#RUN cp /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
-#    cp /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
+RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
+    ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
 
 # Add 'hadoop' user so that this cluster is not run as root.
 RUN groupadd -g 1010 hadoop && \
@@ -104,17 +104,19 @@ ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotation
 ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/minio
 
 # Add minio jars to the hadoop classpath using this hack.
-RUN cp $SPARK_HOME/jars/minio/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
-    cp $SPARK_HOME/jars/minio/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
+RUN ln -s $SPARK_HOME/jars/* /opt/hadoop/share/hadoop/common/lib/
+
+#RUN cp $SPARK_HOME/jars/minio/minio-7.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/jackson-annotations-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/jackson-core-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/jackson-databind-2.10.3.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/spotbugs-annotations-4.0.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/jsr305-3.0.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/guava-25.1-jre.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/okhttp-3.13.1.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/okio-1.17.2.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/jcip-annotations-1.0.jar $HADOOP_HOME/share/hadoop/common/lib/ && \
+#    cp $SPARK_HOME/jars/minio/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
 
 
 
@@ -132,9 +134,9 @@ ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
 
-COPY classpath.sh /opt
-RUN chmod a+x /opt/classpath.sh
-RUN ./opt/classpath.sh
+#COPY classpath.sh /opt
+#RUN chmod a+x /opt/classpath.sh
+#RUN ./opt/classpath.sh
 
 #RUN cd $SPARK_HOME/jars
 #ENV VAR="$(ls | xargs realpath  |  tr '\n' ':')"
