@@ -15,7 +15,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG java_image_tag=8-jre-slim
+#ARG java_image_tag=8-jre-slim
+ARG java_image_tag=8u242-jre-slim
+
 FROM openjdk:${java_image_tag}
 #FROM openjdk:8-slim
 
