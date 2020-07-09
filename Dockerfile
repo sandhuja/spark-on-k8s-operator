@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 
-ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v3.0.0
+#ARG SPARK_IMAGE=gcr.io/spark-operator/spark:v3.0.0
+ARG SPARK_IMAGE=sandhujag/s3spark:2.4.5
 
 FROM golang:1.14.1-alpine as builder
 
