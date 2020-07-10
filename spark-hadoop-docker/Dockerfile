@@ -38,8 +38,11 @@ RUN set -ex && \
 ARG SPARK_VERSION=2.4.5
 ARG HADOOP_VERSION=2.7
 
-ARG HADOOP_AWS_VERSION=2.7.3
-ARG AWS_JAVA_SDK_VERSION=1.7.4
+#ARG HADOOP_AWS_VERSION=2.7.3
+#ARG AWS_JAVA_SDK_VERSION=1.7.4
+
+ARG HADOOP_AWS_VERSION=3.2.0
+ARG AWS_JAVA_SDK_VERSION=1.11.375
 
 # Variables that define which software versions to install.
 ENV JAVA_HOME=/usr/local/openjdk-8
@@ -69,6 +72,7 @@ RUN groupadd -g 1010 hadoop && \
 
 # Set necessary environment variables. 
 ENV HADOOP_HOME="/opt/hadoop"
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/conf
 ENV PATH="/opt/hadoop/bin:${PATH}"
 
 
@@ -143,7 +147,8 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 ENV PATH="/opt/spark/bin:${PATH}"
 RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
-RUN echo "export HADOOP_CONF_DIR=/opt/hadoop/conf" >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export HADOOP_HOME=/opt/hadoop" >> $SPARK_HOME/conf/spark-env.sh
+RUN echo "export HADOOP_CONF_DIR=$HADOOP_HOME/conf" >> $SPARK_HOME/conf/spark-env.sh
 
 #COPY classpath.sh /opt
 #RUN chmod a+x /opt/classpath.sh
