@@ -172,7 +172,7 @@ echo "CMD=${CMD[@]}"
 echo "SPARK_CLASSPATH=$SPARK_CLASSPATH"
 echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 
-echo "$(hdfs dfs -ls s3a://app/)"
+#echo "$(hdfs dfs -ls s3a://app/)"
 
 echo "Print spark.properties"
 cat /opt/spark/conf/spark.properties
