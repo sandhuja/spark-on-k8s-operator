@@ -175,7 +175,10 @@ echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 #echo "$(hdfs dfs -ls s3a://app/)"
 
 echo "Print spark.properties"
-cat /opt/spark/conf/spark.properties
+cat $SPARK_HOME/conf/spark.properties
+
+echo "Print spark-env.sh"
+cat $SPARK_HOME/conf/spark-env.sh
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
