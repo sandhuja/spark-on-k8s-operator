@@ -108,15 +108,15 @@ RUN groupadd -g 1080 spark && \
     useradd -r -m -u 1080 -g spark spark && \
     chown -R -L spark /opt/spark && \
     chgrp -R -L spark /opt/spark
-USER spark
+#USER spark
 WORKDIR /home/spark
 
 # Set necessary environment variables. 
 ENV SPARK_HOME="/opt/spark"
 ENV PATH="${SPARK_HOME}/bin:${PATH}"
-RUN mkdir $SPARK_HOME/confs3
-COPY conf/spark-env.sh $SPARK_HOME/confs3
-ENV SPARK_CONF_DIR=$SPARK_HOME/confs3
+
+COPY conf/spark-env.sh $SPARK_HOME/conf
+ENV SPARK_CONF_DIR=$SPARK_HOME/conf
 
 
 #RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
@@ -192,10 +192,10 @@ COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
 RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
-RUN chmod a+x $SPARK_HOME/confs3/spark-env.sh
+RUN chmod a+x $SPARK_HOME/conf/spark-env.sh
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
 # Specify the User that the actual main process will run as
 #USER ${spark_uid}
-USER spark
+#USER spark
