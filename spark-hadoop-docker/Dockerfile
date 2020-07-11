@@ -89,7 +89,7 @@ ENV PATH="/opt/hadoop/bin:${PATH}"
 
 RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-without-hadoop.tgz \
       && tar -xvzf spark-${SPARK_VERSION}-bin-without-hadoop.tgz \
-      && mv spark-${SPARK_VERSION}-bin-without-hadoop $SPARK_HOME \
+      && mv spark-${SPARK_VERSION}-bin-without-hadoop /opt/spark \
       && rm spark-${SPARK_VERSION}-bin-without-hadoop.tgz 
 
 # Add HADOOP_AWS_JAR and AWS_JAVA_SDK
