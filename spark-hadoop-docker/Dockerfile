@@ -115,6 +115,7 @@ WORKDIR /home/spark
 ENV SPARK_HOME="/opt/spark"
 ENV PATH="${SPARK_HOME}/bin:${PATH}"
 COPY conf/spark-env.sh $SPARK_HOME/conf
+RUN chmod a+x /opt/spark/spark-env.sh
 
 #RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
 #RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
@@ -189,6 +190,7 @@ COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
 RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
+
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
