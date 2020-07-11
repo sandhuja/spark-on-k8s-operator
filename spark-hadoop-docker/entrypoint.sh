@@ -177,8 +177,8 @@ echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 echo "Print spark.properties"
 cat $SPARK_HOME/conf/spark.properties
 
-echo "Print spark-env.sh"
-cat $SPARK_HOME/conf/spark-env.sh
+echo "ls -l $SPARK_HOME/conf"
+cat ls -l $SPARK_HOME/conf
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
