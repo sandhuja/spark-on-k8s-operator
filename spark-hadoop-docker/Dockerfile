@@ -52,6 +52,13 @@ RUN apt update \
     && apt install -y curl \
     && apt install -y wget
     
+# Setup for the Prometheus JMX exporter.
+RUN mkdir -p /etc/metrics/conf
+# Add the Prometheus JMX exporter Java agent jar for exposing metrics sent to the JmxSink to Prometheus.
+ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar /prometheus/
+COPY conf/metrics.properties /etc/metrics/conf
+COPY conf/prometheus.yaml /etc/metrics/conf
+
 ####################################################################################
 # Download and extract the Hadoop binary package.
 RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/hadoop-$HADOOP_AWS_VERSION.tar.gz \
@@ -158,12 +165,7 @@ COPY conf/spark-env.sh $SPARK_HOME/conf
 
 
 
-# Setup for the Prometheus JMX exporter.
-RUN mkdir -p /etc/metrics/conf
-# Add the Prometheus JMX exporter Java agent jar for exposing metrics sent to the JmxSink to Prometheus.
-ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.11.0/jmx_prometheus_javaagent-0.11.0.jar /prometheus/
-COPY conf/metrics.properties /etc/metrics/conf
-COPY conf/prometheus.yaml /etc/metrics/conf
+
 
 
 
