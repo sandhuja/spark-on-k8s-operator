@@ -179,11 +179,13 @@ COPY conf/spark-env.sh $SPARK_HOME/conf
 #RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 #RUN echo "spark.executor.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 
+
+RUN mkdir -p /opt/spark/work-dir 
+WORKDIR /opt/spark/work-dir
+
+USER ROOT
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
-RUN mkdir -p /opt/spark/work-dir 
-
-WORKDIR /opt/spark/work-dir
 RUN chmod g+w /opt/spark/work-dir
 RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
@@ -192,3 +194,4 @@ ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
 # Specify the User that the actual main process will run as
 #USER ${spark_uid}
+USER spark
