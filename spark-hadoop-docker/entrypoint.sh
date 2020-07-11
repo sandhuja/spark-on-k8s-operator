@@ -180,6 +180,7 @@ cat $SPARK_HOME/conf/spark.properties
 echo "ls -l $SPARK_HOME/conf"
 ls -l $SPARK_HOME/conf
 
+export SPARK_CONF_DIR=$SPARK_HOME/confs3
 echo "SPARK_CONF_DIR=$SPARK_CONF_DIR"
 ls -l $SPARK_CONF_DIR
 
