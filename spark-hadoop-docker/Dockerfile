@@ -21,8 +21,8 @@ ARG java_image_tag=8u242-jre-slim
 FROM openjdk:${java_image_tag}
 #FROM openjdk:8-slim
 
-ENV SPARK_HOME /opt/spark
-ARG spark_uid=185
+
+#ARG spark_uid=185
 
 RUN set -ex && \
     sed -i 's/http:\/\/deb.\(.*\)/https:\/\/deb.\1/g' /etc/apt/sources.list && \
@@ -96,6 +96,25 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar /opt/spark/jars
 ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-bundle-${AWS_JAVA_SDK_VERSION}.jar /opt/spark/jars
 
+# Add 'spark' user so that this cluster is not run as root.
+RUN groupadd -g 1080 spark && \
+    useradd -r -m -u 1080 -g spark spark && \
+    chown -R -L spark /opt/spark && \
+    chgrp -R -L spark /opt/spark
+USER spark
+WORKDIR /home/spark
+
+# Set necessary environment variables. 
+ENV SPARK_HOME="/opt/spark"
+ENV PATH="${SPARK_HOME}/bin:${PATH}"
+COPY conf/spark-env.sh $SPARK_HOME/conf
+
+#RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
+#RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
+#RUN echo "export HADOOP_HOME=/opt/hadoop" >> $SPARK_HOME/conf/spark-env.sh
+#RUN echo "export HADOOP_CONF_DIR=$HADOOP_HOME/conf" >> $SPARK_HOME/conf/spark-env.sh
+
+
 # Retrieve Spark cloud jar      
 #ADD https://repository.cloudera.com/artifactory/cloudera-repos/org/apache/spark/spark-hadoop-cloud_2.11/2.4.0-cdh6.3.3/spark-hadoop-cloud_2.11-2.4.0-cdh6.3.3.jar $SPARK_HOME/jars
 #ADD http://repo1.purestorage.int/spark/2.4.6/hadoop-cloud/spark-hadoop-cloud_2.11-2.4.4.3.1.6.3-1.jar $SPARK_HOME/jars      
@@ -146,15 +165,7 @@ ADD https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/0.
 COPY conf/metrics.properties /etc/metrics/conf
 COPY conf/prometheus.yaml /etc/metrics/conf
 
-# Set necessary environment variables. 
-#ENV SPARK_HOME="/opt/spark"
-ENV PATH="${SPARK_HOME}/bin:${PATH}"
-#RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
-#RUN echo "export SPARK_DIST_CLASSPATH=$(hadoop classpath)" >> $SPARK_HOME/conf/spark-env.sh
-#RUN echo "export HADOOP_HOME=/opt/hadoop" >> $SPARK_HOME/conf/spark-env.sh
-#RUN echo "export HADOOP_CONF_DIR=$HADOOP_HOME/conf" >> $SPARK_HOME/conf/spark-env.sh
 
-COPY conf/spark-env.sh $SPARK_HOME/conf
 
 #COPY classpath.sh /opt
 #RUN chmod a+x /opt/classpath.sh
@@ -178,4 +189,4 @@ RUN chmod a+x /opt/entrypoint.sh
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
 # Specify the User that the actual main process will run as
-USER ${spark_uid}
+#USER ${spark_uid}
