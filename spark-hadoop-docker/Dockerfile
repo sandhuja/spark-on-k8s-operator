@@ -192,7 +192,7 @@ COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
 RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
-RUN chmod a+x SPARK_HOME/confs3/spark-env.sh
+RUN chmod a+x $SPARK_HOME/confs3/spark-env.sh
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
