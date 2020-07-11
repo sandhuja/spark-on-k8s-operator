@@ -180,5 +180,8 @@ cat $SPARK_HOME/conf/spark.properties
 echo "ls -l $SPARK_HOME/conf"
 ls -l $SPARK_HOME/conf
 
+echo "SPARK_CONF_DIR=$SPARK_CONF_DIR"
+ls -l $SPARK_CONF_DIR
+
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
