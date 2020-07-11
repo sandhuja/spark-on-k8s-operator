@@ -184,7 +184,7 @@ RUN chmod a+x /opt/spark/spark-env.sh
 RUN mkdir -p /opt/spark/work-dir 
 WORKDIR /opt/spark/work-dir
 
-USER ROOT
+USER root
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
