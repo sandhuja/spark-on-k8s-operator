@@ -38,7 +38,8 @@ RUN set -ex && \
 ARG SPARK_VERSION=2.4.5
 ARG HADOOP_VERSION=2.7
 
-ARG HADOOP_AWS_VERSION=2.7.3
+#ARG HADOOP_AWS_VERSION=2.7.3
+ARG HADOOP_AWS_VERSION=2.6.0-cdh5.16.2
 ARG AWS_JAVA_SDK_VERSION=1.7.4
 
 #ARG HADOOP_AWS_VERSION=3.2.0
@@ -61,7 +62,8 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 
 ####################################################################################
 # Download and extract the Hadoop binary package.
-RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/hadoop-$HADOOP_AWS_VERSION.tar.gz \
+#RUN curl https://archive.apache.org/dist/hadoop/core/hadoop-$HADOOP_AWS_VERSION/hadoop-$HADOOP_AWS_VERSION.tar.gz \
+RUN curl http://archive.cloudera.com/cdh5/cdh/5/hadoop-$HADOOP_AWS_VERSION.tar.gz \
 	| tar xvz -C /opt/  \
 	&& ln -s /opt/hadoop-$HADOOP_AWS_VERSION /opt/hadoop \
 	&& rm -r /opt/hadoop/share/doc 
