@@ -115,8 +115,8 @@ WORKDIR /home/spark
 ENV SPARK_HOME="/opt/spark"
 ENV PATH="${SPARK_HOME}/bin:${PATH}"
 
-ENV SPARK_CONF_DIR=$SPARK_HOME/confs3
-RUN mkdir $SPARK_CONF_DIR
+ENV SPARK_CONF_DIR=$SPARK_HOME/conf
+#RUN mkdir $SPARK_CONF_DIR
 COPY conf/spark-env.sh $SPARK_CONF_DIR
 
 
