@@ -110,6 +110,10 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 #ADD https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_AWS_VERSION}/hadoop-aws-${HADOOP_AWS_VERSION}.jar /opt/spark/jars
 #ADD https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${AWS_JAVA_SDK_VERSION}/aws-java-sdk-bundle-${AWS_JAVA_SDK_VERSION}.jar /opt/spark/jars
 
+# Set necessary environment variables. 
+ENV SPARK_HOME="/opt/spark"
+ENV PATH="${SPARK_HOME}/bin:${PATH}"
+
 RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
@@ -121,9 +125,7 @@ RUN groupadd -g 1080 spark && \
 #USER spark
 WORKDIR /home/spark
 
-# Set necessary environment variables. 
-ENV SPARK_HOME="/opt/spark"
-ENV PATH="${SPARK_HOME}/bin:${PATH}"
+
 
 ENV SPARK_CONF_DIR=$SPARK_HOME/conf
 #RUN mkdir $SPARK_CONF_DIR
