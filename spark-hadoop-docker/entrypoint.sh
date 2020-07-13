@@ -85,16 +85,18 @@ fi
 #  fi
 #done
 
-for f in $HBASE_HOME/lib/*.jar; do
-  if [ "$SPARK_CLASSPATH" ]; then
-    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
-  else
-    export SPARK_CLASSPATH=$f
-  fi
-done
+#for f in $HBASE_HOME/lib/*.jar; do
+#  if [ "$SPARK_CLASSPATH" ]; then
+#    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+#  else
+#    export SPARK_CLASSPATH=$f
+#  fi
+#done
 
+echo "hbase lib listing"
+echo $(ls -l $HBASE_HOME/lib)
 
-export SPARK_DIST_CLASSPATH=$(hadoop classpath)
+export SPARK_DIST_CLASSPATH=$(hadoop classpath):$(hbase classpath)
 #export SPARK_DIST_CLASSPATH=$SPARK_DIST_CLASSPATH:$(hbase classpath)
 export HADOOP_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 #export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$SPARK_CLASSPATH
