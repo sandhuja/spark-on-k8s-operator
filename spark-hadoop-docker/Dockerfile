@@ -68,9 +68,9 @@ RUN curl http://archive.cloudera.com/cdh5/cdh/5/hadoop-$HADOOP_AWS_VERSION.tar.g
 	&& ln -s /opt/hadoop-$HADOOP_AWS_VERSION /opt/hadoop \
 	&& rm -r /opt/hadoop/share/doc
 	
-RUN curl http://archive.cloudera.com/cdh5/cdh/5/hbase-$HADOOP_AWS_VERSION.tar.gz \
+RUN curl http://archive.cloudera.com/cdh5/cdh/5/hbase-1.2.0-cdh5.16.2.tar.gz \
 	| tar xvz -C /opt/  \
-	&& ln -s /opt/hbase-$HADOOP_AWS_VERSION /opt/hadoop/hbase  
+	&& ln -s /opt/hbase-1.2.0-cdh5.16.2 /opt/hadoop/hbase  
 
 # Add S3a jars to the classpath using this hack.
 RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
