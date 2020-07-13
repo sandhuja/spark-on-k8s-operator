@@ -85,8 +85,17 @@ fi
 #  fi
 #done
 
+for f in $HBASE_HOME/lib/*.jar; do
+  if [ "$SPARK_CLASSPATH" ]; then
+    export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
+  else
+    export SPARK_CLASSPATH=$f
+  fi
+done
+
+
 export SPARK_DIST_CLASSPATH=$(hadoop classpath)
-export SPARK_DIST_CLASSPATH=$SPARK_DIST_CLASSPATH:$(hbase classpath)
+#export SPARK_DIST_CLASSPATH=$SPARK_DIST_CLASSPATH:$(hbase classpath)
 export HADOOP_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 #export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$SPARK_CLASSPATH
 #$HADOOP_HOME/share/hadoop/tools/lib/*
@@ -165,6 +174,7 @@ case "$SPARK_K8S_CMD" in
     exit 1
 esac
 
+# Debug messages
 echo "CMD=${CMD[@]}"
 
 #echo "run hadoop classpath command"
@@ -175,14 +185,14 @@ echo "HADOOP_CLASSPATH=$HADOOP_CLASSPATH"
 
 #echo "$(hdfs dfs -ls s3a://app/)"
 
-echo "Print spark.properties"
-cat $SPARK_HOME/conf/spark.properties
+#echo "Print spark.properties"
+#cat $SPARK_HOME/conf/spark.properties
 
-echo "ls -l $SPARK_HOME/conf"
-ls -l $SPARK_HOME/conf
+#echo "ls -l $SPARK_HOME/conf"
+#ls -l $SPARK_HOME/conf
 
-echo "SPARK_CONF_DIR=$SPARK_CONF_DIR"
-ls -l $SPARK_CONF_DIR
+#echo "SPARK_CONF_DIR=$SPARK_CONF_DIR"
+#ls -l $SPARK_CONF_DIR
 
 # Execute the container CMD under tini for better hygiene
 exec /usr/bin/tini -s -- "${CMD[@]}"
