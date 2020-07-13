@@ -66,7 +66,11 @@ COPY conf/prometheus.yaml /etc/metrics/conf
 RUN curl http://archive.cloudera.com/cdh5/cdh/5/hadoop-$HADOOP_AWS_VERSION.tar.gz \
 	| tar xvz -C /opt/  \
 	&& ln -s /opt/hadoop-$HADOOP_AWS_VERSION /opt/hadoop \
-	&& rm -r /opt/hadoop/share/doc 
+	&& rm -r /opt/hadoop/share/doc
+	
+RUN curl http://archive.cloudera.com/cdh5/cdh/5/hbase-$HADOOP_AWS_VERSION.tar.gz \
+    | tar xvz -C /opt/  \
+	&& ln -s /opt/hbase-$HADOOP_AWS_VERSION /opt/hadoop/hbase  
 
 # Add S3a jars to the classpath using this hack.
 RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoop/common/lib/ && \
@@ -81,8 +85,9 @@ RUN groupadd -g 1010 hadoop && \
 
 # Set necessary environment variables. 
 ENV HADOOP_HOME="/opt/hadoop"
-ENV HADOOP_CONF_DIR=$HADOOP_HOME/conf
-ENV PATH="/opt/hadoop/bin:${PATH}"
+ENV HBASE_HOME="/opt/hadoop/hbase"
+#ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop:$HBASE_HOME/conf
+ENV PATH="$HADOOP_HOME/bin:$HBASE_HOME/bin:${PATH}"
 
 
 
