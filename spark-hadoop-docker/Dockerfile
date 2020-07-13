@@ -114,7 +114,7 @@ RUN wget https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SP
 ENV SPARK_HOME="/opt/spark"
 ENV PATH="${SPARK_HOME}/bin:${PATH}"
 
-RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
+#RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
 # Add 'spark' user so that this cluster is not run as root.
