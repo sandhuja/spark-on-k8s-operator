@@ -69,7 +69,7 @@ RUN curl http://archive.cloudera.com/cdh5/cdh/5/hadoop-$HADOOP_AWS_VERSION.tar.g
 	&& rm -r /opt/hadoop/share/doc
 	
 RUN curl http://archive.cloudera.com/cdh5/cdh/5/hbase-$HADOOP_AWS_VERSION.tar.gz \
-    | tar xvz -C /opt/  \
+	| tar xvz -C /opt/  \
 	&& ln -s /opt/hbase-$HADOOP_AWS_VERSION /opt/hadoop/hbase  
 
 # Add S3a jars to the classpath using this hack.
