@@ -77,11 +77,19 @@ RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoo
     ln -s /opt/hadoop/share/hadoop/tools/lib/aws-java-sdk* /opt/hadoop/share/hadoop/common/lib/
 
 # Add 'hadoop' user so that this cluster is not run as root.
+#RUN groupadd -g 1010 hadoop && \
+#    useradd -r -m -u 1010 -g hadoop hadoop && \
+#    mkdir -p /opt/hadoop/logs && \
+#    chown -R -L hadoop /opt/hadoop && \
+#    chgrp -R -L hadoop /opt/hadoop
+    
 RUN groupadd -g 1010 hadoop && \
-    useradd -r -m -u 1010 -g hadoop hadoop && \
+    useradd -r -m -u 1010 -g hadoop ${spark_uid} && \
     mkdir -p /opt/hadoop/logs && \
     chown -R -L hadoop /opt/hadoop && \
     chgrp -R -L hadoop /opt/hadoop
+
+
 
 # Set necessary environment variables. 
 ENV HADOOP_HOME="/opt/hadoop"
@@ -118,18 +126,24 @@ ENV PATH="${SPARK_HOME}/bin:${PATH}"
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
 # Add 'spark' user so that this cluster is not run as root.
+#RUN groupadd -g 1080 spark && \
+#    useradd -r -m -u 1080 -g spark spark && \
+#    chown -R -L spark /opt/spark && \
+#    chgrp -R -L spark /opt/spark
+
 RUN groupadd -g 1080 spark && \
-    useradd -r -m -u 1080 -g spark spark && \
+    useradd -r -m -u 1080 -g spark ${spark_uid} && \
     chown -R -L spark /opt/spark && \
     chgrp -R -L spark /opt/spark
+    
 #USER spark
-WORKDIR /home/spark
+#WORKDIR /home/spark
 
 
 
-ENV SPARK_CONF_DIR=$SPARK_HOME/conf
+#ENV SPARK_CONF_DIR=$SPARK_HOME/conf
 #RUN mkdir $SPARK_CONF_DIR
-COPY conf/spark-env.sh $SPARK_CONF_DIR
+#COPY conf/spark-env.sh $SPARK_CONF_DIR
 
 
 #RUN echo "export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HADOOP_HOME/lib/native" >> $SPARK_HOME/conf/spark-env.sh
@@ -179,12 +193,6 @@ COPY conf/spark-env.sh $SPARK_CONF_DIR
 #    cp $SPARK_HOME/jars/minio/simple-xml-2.7.1.jar $HADOOP_HOME/share/hadoop/common/lib/
 
 
-
-
-
-
-
-
 #COPY classpath.sh /opt
 #RUN chmod a+x /opt/classpath.sh
 #RUN ./opt/classpath.sh
@@ -199,16 +207,16 @@ COPY conf/spark-env.sh $SPARK_CONF_DIR
 RUN mkdir -p /opt/spark/work-dir 
 WORKDIR /opt/spark/work-dir
 
-USER root
+#USER root
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
 RUN chmod a+x /opt/decom.sh
 RUN chmod a+x /opt/entrypoint.sh
-RUN chmod a+x $SPARK_CONF_DIR/spark-env.sh
+
 
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
 # Specify the User that the actual main process will run as
-#USER ${spark_uid}
+USER ${spark_uid}
 #USER spark
