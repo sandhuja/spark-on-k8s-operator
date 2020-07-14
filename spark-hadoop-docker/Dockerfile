@@ -22,6 +22,7 @@ FROM openjdk:${java_image_tag}
 #FROM openjdk:8-slim
 
 ARG spark_uid=185
+RUN useradd -u ${spark_uid} spark
 
 RUN set -ex && \
     sed -i 's/http:\/\/deb.\(.*\)/https:\/\/deb.\1/g' /etc/apt/sources.list && \
@@ -83,7 +84,7 @@ RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoo
 #    chgrp -R -L hadoop /opt/hadoop
     
 RUN groupadd -g 1010 hadoop && \
-    useradd -r -m -u ${spark_uid} -g hadoop hadoop && \
+    usermod -a -G hadoop spark && \
     mkdir -p /opt/hadoop/logs && \
     chown -R -L hadoop /opt/hadoop && \
     chgrp -R -L hadoop /opt/hadoop
@@ -131,7 +132,7 @@ ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $S
 #    chgrp -R -L spark /opt/spark
 
 RUN groupadd -g 1080 spark && \
-    usermod -a -G spark ${spark_uid} && \
+    usermod -a -G spark spark && \
     chown -R -L spark /opt/spark && \
     chgrp -R -L spark /opt/spark
     
