@@ -21,8 +21,7 @@ ARG java_image_tag=8u242-jre-slim
 FROM openjdk:${java_image_tag}
 #FROM openjdk:8-slim
 
-
-#ARG spark_uid=185
+ARG spark_uid=185
 
 RUN set -ex && \
     sed -i 's/http:\/\/deb.\(.*\)/https:\/\/deb.\1/g' /etc/apt/sources.list && \
