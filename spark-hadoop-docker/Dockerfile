@@ -86,8 +86,8 @@ RUN ln -s /opt/hadoop/share/hadoop/tools/lib/hadoop-aws* /opt/hadoop/share/hadoo
 RUN groupadd -g 1010 hadoop && \
     usermod -G hadoop spark && \
     mkdir -p /opt/hadoop/logs && \
-    chown -R -L hadoop /opt/hadoop && \
-    chgrp -R -L hadoop /opt/hadoop
+    chown -R -L spark /opt/hadoop && \
+    chgrp -R -L spark /opt/hadoop
 
 
 
