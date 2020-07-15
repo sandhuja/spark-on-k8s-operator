@@ -93,10 +93,11 @@ fi
 #  fi
 #done
 
-echo "hbase lib listing"
-echo $(ls -l $HBASE_HOME/lib)
+#echo "hbase lib listing"
+#echo $(ls -l $HBASE_HOME/lib)
 
-export SPARK_DIST_CLASSPATH=$(hadoop classpath):$(hbase classpath)
+export SPARK_DIST_CLASSPATH=$(hadoop classpath)
+#:$(hbase classpath)
 #export SPARK_DIST_CLASSPATH=$SPARK_DIST_CLASSPATH:$(hbase classpath)
 export HADOOP_CLASSPATH=$SPARK_CLASSPATH:$SPARK_DIST_CLASSPATH
 #export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$SPARK_CLASSPATH
