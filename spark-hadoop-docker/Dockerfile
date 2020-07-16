@@ -203,11 +203,11 @@ RUN groupadd -f -g 1080 spark && \
 #RUN echo "spark.driver.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 #RUN echo "spark.executor.extraClassPath=$SPARK_CLASSPATH" >> $SPARK_HOME/conf/spark.properties
 
-
+USER spark
 RUN mkdir -p /opt/spark/work-dir 
 WORKDIR /opt/spark/work-dir
 
-#USER root
+USER root
 COPY entrypoint.sh /opt
 COPY decom.sh /opt
 RUN chmod g+w /opt/spark/work-dir
