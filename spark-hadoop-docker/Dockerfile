@@ -87,7 +87,7 @@ RUN groupadd -f -g 1010 hadoop && \
     usermod -G hadoop spark && \
     mkdir -p /opt/hadoop/logs && \
     chown -R -L spark /opt/hadoop && \
-    chgrp -R -L spark /opt/hadoop
+    chgrp -R -L hadoop /opt/hadoop
 
 
 
@@ -132,7 +132,7 @@ ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $S
 #    chgrp -R -L spark /opt/spark
 
 RUN groupadd -f -g 1080 spark && \
-    usermod -G spark spark && \
+    usermod -g spark spark && \
     chown -R -L spark /opt/spark && \
     chgrp -R -L spark /opt/spark
     
