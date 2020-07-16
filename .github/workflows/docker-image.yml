@@ -14,5 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Docker login
+      run: docker login --username=yourhubusername --password=yourpassword
+      
     - name: Build the Docker image
-      run: docker build . --file spark-hadoop-docker/Dockerfile --tag sandhujag/s3spark:2.4.5
+      run: docker build . --file Dockerfile --tag sandhujag/s3spark:2.4.5
+      working-directory: spark-hadoop-docker
+      
+    - name: Docker push
+      run: docker push sandhujag/s3spark:2.4.5
+      working-directory: spark-hadoop-docker
