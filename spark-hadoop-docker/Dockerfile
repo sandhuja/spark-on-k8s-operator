@@ -125,6 +125,8 @@ ENV PATH="${SPARK_HOME}/bin:${PATH}"
 #RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
+COPY jars/log4js3-1.0.0-stand-alone.jar $SPARK_HOME/jars
+
 # Add 'spark' user so that this cluster is not run as root.
 #RUN groupadd -g 1080 spark && \
 #    useradd -r -m -u 1080 -g spark spark && \
