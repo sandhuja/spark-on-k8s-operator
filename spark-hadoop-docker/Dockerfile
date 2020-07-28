@@ -125,7 +125,18 @@ ENV PATH="${SPARK_HOME}/bin:${PATH}"
 #RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
-COPY jars/log4js3-1.0.0-stand-alone.jar $SPARK_HOME/jars
+
+COPY jars/log4j-api-2.13.3.jar $SPARK_HOME/jars
+COPY jars/log4j-api-scala_2.13-12.0.jar $SPARK_HOME/jars
+COPY jars/log4j-core-2.13.3.jar $SPARK_HOME/jars
+COPY jars/log4j-slf4j-impl-2.13.3.jar $SPARK_HOME/jars
+COPY jars/log4js3-1.0.0.jar $SPARK_HOME/jars
+COPY jars/slf4j-api-1.7.25.jar $SPARK_HOME/jars
+
+RUN rm $SPARK_HOME/jars/log4j-1.2.17.jar \
+   && rm $SPARK_HOME/jars/slf4j-api-1.7.16.jar \
+   && rm $SPARK_HOME/jars/slf4j-log4j12-1.7.16.jar
+   
 
 # Add 'spark' user so that this cluster is not run as root.
 #RUN groupadd -g 1080 spark && \
