@@ -133,9 +133,9 @@ COPY jars/log4j-slf4j-impl-2.13.3.jar $SPARK_HOME/jars
 COPY jars/log4js3-1.0.0.jar $SPARK_HOME/jars
 COPY jars/slf4j-api-1.7.25.jar $SPARK_HOME/jars
 
-RUN rm $SPARK_HOME/jars/log4j-1.2.17.jar \
-   && rm $SPARK_HOME/jars/slf4j-api-1.7.16.jar \
-   && rm $SPARK_HOME/jars/slf4j-log4j12-1.7.16.jar
+#RUN rm $SPARK_HOME/jars/log4j-1.2.17.jar \
+#   && rm $SPARK_HOME/jars/slf4j-api-1.7.16.jar \
+#   && rm $SPARK_HOME/jars/slf4j-log4j12-1.7.16.jar
    
 
 # Add 'spark' user so that this cluster is not run as root.
