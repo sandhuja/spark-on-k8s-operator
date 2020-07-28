@@ -125,7 +125,7 @@ ENV PATH="${SPARK_HOME}/bin:${PATH}"
 #RUN rm $SPARK_HOME/jars/guava-14.0.1.jar
 ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $SPARK_HOME/jars
 
-
+COPY jars/appender-core-2.6.0.jar $SPARK_HOME/jars
 COPY jars/log4j-api-2.13.3.jar $SPARK_HOME/jars
 COPY jars/log4j-api-scala_2.13-12.0.jar $SPARK_HOME/jars
 COPY jars/log4j-core-2.13.3.jar $SPARK_HOME/jars
