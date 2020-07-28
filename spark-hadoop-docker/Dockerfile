@@ -146,9 +146,9 @@ ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar
 #ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars/minio
 #ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/minio
 
-#RUN rm $SPARK_HOME/jars/log4j-1.2.17.jar \
-#   && rm $SPARK_HOME/jars/slf4j-api-1.7.16.jar \
-#   && rm $SPARK_HOME/jars/slf4j-log4j12-1.7.16.jar
+RUN rm $HADOOP_HOME/share/hadoop/common/lib/log4j-1.2.17.jar \
+   && rm $HADOOP_HOME/share/hadoop/common/lib/slf4j-api-1.7.5.jar \
+   && rm $HADOOP_HOME/share/hadoop/common/lib/slf4j-log4j12-1.7.5.jar
    
 
 # Add 'spark' user so that this cluster is not run as root.
