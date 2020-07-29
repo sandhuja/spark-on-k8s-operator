@@ -132,6 +132,8 @@ COPY jars/log4j-core-2.13.3.jar $SPARK_HOME/jars
 COPY jars/log4j-slf4j-impl-2.13.3.jar $SPARK_HOME/jars
 COPY jars/log4js3-1.0.0.jar $SPARK_HOME/jars
 COPY jars/slf4j-api-1.7.25.jar $SPARK_HOME/jars
+# Add log4j 1.2 compatibility
+ADD https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-1.2-api/2.13.3/log4j-1.2-api-2.13.3.jar $SPARK_HOME/jars
 
 ## Add Minio jars
 ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars
