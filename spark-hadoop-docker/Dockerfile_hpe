@@ -25,6 +25,11 @@ ADD https://repo1.maven.org/maven2/com/google/guava/guava/23.0/guava-23.0.jar $S
 #ADD https://storage.googleapis.com/hadoop-lib/gcs/gcs-connector-latest-hadoop2.jar $SPARK_HOME/jars
 #ADD https://storage.googleapis.com/spark-lib/bigquery/spark-bigquery-latest.jar $SPARK_HOME/jars
 
+# Remove log4j 1.2 jars
+RUN rm -f $HADOOP_HOME/share/hadoop/common/lib/log4j-1.2* \
+   && rm $HADOOP_HOME/share/hadoop/common/lib/slf4j-api-1.7* \
+   && rm $HADOOP_HOME/share/hadoop/common/lib/slf4j-log4j12*
+
 COPY jars/appender-core-2.6.0.jar $SPARK_HOME/jars
 COPY jars/log4j-api-2.13.3.jar $SPARK_HOME/jars
 COPY jars/log4j-api-scala_2.13-12.0.jar $SPARK_HOME/jars
