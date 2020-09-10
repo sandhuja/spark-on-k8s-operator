@@ -1,4 +1,4 @@
-for f in $SPARK_HOME/jars/*.jar; do
+for f in $SPARK_HOME/jars/logging/*.jar; do
   if [ "$SPARK_CLASSPATH" ]; then
     export SPARK_CLASSPATH=$SPARK_CLASSPATH:$f
   else
