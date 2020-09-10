@@ -52,5 +52,6 @@ ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotation
 ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/logging
 
 COPY classpath.sh /opt
+RUN chmod a+x /opt/entrypoint.sh
 RUN /opt/classpath.sh
 
