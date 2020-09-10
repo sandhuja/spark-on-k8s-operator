@@ -30,25 +30,27 @@ RUN rm -f $SPARK_HOME/jars/log4j-1.2*
 RUN rm -f $SPARK_HOME/jars/slf4j-api-1.7*
 RUN rm -f $SPARK_HOME/jars/slf4j-log4j12*
 
-COPY jars/appender-core-2.6.0.jar $SPARK_HOME/jars
-COPY jars/log4j-api-2.13.3.jar $SPARK_HOME/jars
-COPY jars/log4j-api-scala_2.13-12.0.jar $SPARK_HOME/jars
-COPY jars/log4j-core-2.13.3.jar $SPARK_HOME/jars
-COPY jars/log4j-slf4j-impl-2.13.3.jar $SPARK_HOME/jars
-COPY jars/log4js3-1.0.0.jar $SPARK_HOME/jars
-COPY jars/slf4j-api-1.7.25.jar $SPARK_HOME/jars
+RUN mkdir $SPARK_HOME/jars/logging
+
+COPY jars/appender-core-2.6.0.jar $SPARK_HOME/jars/logging
+COPY jars/log4j-api-2.13.3.jar $SPARK_HOME/jars/logging
+COPY jars/log4j-api-scala_2.13-12.0.jar $SPARK_HOME/jars/logging
+COPY jars/log4j-core-2.13.3.jar $SPARK_HOME/jars/logging
+COPY jars/log4j-slf4j-impl-2.13.3.jar $SPARK_HOME/jars/logging
+COPY jars/log4js3-1.0.0.jar $SPARK_HOME/jars/logging
+COPY jars/slf4j-api-1.7.25.jar $SPARK_HOME/jars/logging
 # Add log4j 1.2 compatibility
-ADD https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-1.2-api/2.13.3/log4j-1.2-api-2.13.3.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/org/apache/logging/log4j/log4j-1.2-api/2.13.3/log4j-1.2-api-2.13.3.jar $SPARK_HOME/jars/logging
 
 ## Add Minio jars
-ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.13.1/okhttp-3.13.1.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars
-ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars
+ADD https://repo1.maven.org/maven2/io/minio/minio/7.0.2/minio-7.0.2.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs-annotations/4.0.0/spotbugs-annotations-4.0.0.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/com/squareup/okhttp3/okhttp/3.13.1/okhttp-3.13.1.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/com/squareup/okio/okio/1.17.2/okio-1.17.2.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/net/jcip/jcip-annotations/1.0/jcip-annotations-1.0.jar $SPARK_HOME/jars/logging
+ADD https://repo1.maven.org/maven2/org/simpleframework/simple-xml/2.7.1/simple-xml-2.7.1.jar $SPARK_HOME/jars/logging
 
+COPY classpath.sh /opt
+RUN /opt/classpath.sh
 
-   
- 
