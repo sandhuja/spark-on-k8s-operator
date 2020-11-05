@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-ARG SPARK_IMAGE=docker.artifactory.gmfinancial.com/mapr-hpe/spark-2.4.4:201912180140
+ARG SPARK_IMAGE=gcr.io/mapr-hpe/spark-2.4.4:201912180140
 FROM ${SPARK_IMAGE}
 
 
