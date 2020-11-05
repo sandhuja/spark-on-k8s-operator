@@ -18,7 +18,7 @@ jobs:
       run: docker login --username=${{ secrets.DOCKER_USERNAME }} --password=${{ secrets.DOCKER_PASSWORD }}
       
     - name: Build the Docker image
-      run: docker build . --file Dockerfile_hpe_zure --tag sandhujag/spark-2.4.4:hpeazure
+      run: docker build . --file Dockerfile_hpe_azure --tag sandhujag/spark-2.4.4:hpeazure
       working-directory: spark-hadoop-docker
       
     - name: Docker push
