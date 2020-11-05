@@ -1,4 +1,4 @@
-name: Docker Image HPE
+name: Docker Image HPE Azure
 
 on:
   push:
